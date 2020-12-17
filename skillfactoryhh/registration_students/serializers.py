@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
 
 
 User = get_user_model()
@@ -50,3 +50,44 @@ class RegistrationSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             password=validated_data['password'],
         )
+
+
+class LoginSerializer(serializers.ModelSerializer):
+
+    email = serializers.EmailField(
+        write_only=True,
+        required=True,
+    )
+
+    password = serializers.CharField(
+        write_only=True,
+        required=True,
+    )
+
+    class Meta:
+
+        model = User
+        fields = [
+            'id',
+            'email',
+            'password',
+        ]
+
+    def validate(self, data):
+
+        email = data.get('email', None)
+        password = data.get('password', None)
+
+        user = authenticate(username=email, password=password)
+
+        if user is None:
+            raise serializers.ValidationError(
+                'Пользователь с таким именем и паролем не найден',
+            )
+
+        if not user.is_active:
+            raise serializers.ValidationError(
+                'Данный пользователь не активен',
+            )
+
+        return super().validate(self)
