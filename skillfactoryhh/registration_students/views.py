@@ -39,16 +39,11 @@ class RegistrationAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class LoginAPIView(APIView):
+@api_view(['GET', ])
+@permission_classes((AllowAny, ))
+def account_confirmation(request):
 
-    serializer_class = LoginSerializer
+    token = request.GET.get('token')
+    User.objects.filter(auth_token=token).update(is_active=True)
 
-    def post(self, request):
-
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        user = authenticate(username=request.data['email'], password=request.data['password'])
-        login(request, user)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(data=token, status=status.HTTP_200_OK)
