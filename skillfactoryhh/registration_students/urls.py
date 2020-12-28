@@ -1,9 +1,11 @@
 from django.urls import path
+from rest_framework.authtoken.views import obtain_auth_token
 
-from .views import RegistrationAPIView, LoginAPIView
+from .views import RegistrationAPIView, account_confirmation
 
 
 urlpatterns = [
-    path('api/registration/', RegistrationAPIView.as_view(), name='registration'),
-    path('api/login/', LoginAPIView.as_view(), name='login'),
+    path('api/registration/', RegistrationAPIView.as_view(), name='register'),
+    path('api/login/', obtain_auth_token, name='login'),
+    path('api/confirm_account/', account_confirmation),
 ]
