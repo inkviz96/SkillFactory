@@ -71,7 +71,7 @@ class RegistrationCompanyModelTest(TestCase):
     def test_contact_person_label(self):
         company_prof = CompanyProfile.objects.get(id=1)
         field_label = company_prof._meta.get_field('contact_person').verbose_name
-        self.assertEquals(field_label, 'contact_person')
+        self.assertEquals(field_label, 'contact person')
 
     def test_contact_person_max_length(self):
         company_prof = CompanyProfile.objects.get(id=1)
