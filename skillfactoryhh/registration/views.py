@@ -37,11 +37,18 @@ class CompanyProfileListCreateView(ListCreateAPIView):
         else:
             about_t = '-'
 
+        if serializer.data.get("position"):
+            position = serializer.data.get("position")
+        else:
+            position = '-'
+
         message_data = {
             'scope': serializer.data.get("scope"),
             'address': serializer.data.get("address"),
             'about_c': about_c,
             'about_t': about_t,
+            'contact_person': serializer.data.get("contact_person"),
+            'position': position,
             'email': serializer.data.get("email"),
             'phone': serializer.data.get("phone_number")
         }
