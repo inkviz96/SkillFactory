@@ -11,9 +11,9 @@ Registration company app (User registration and authorization on a django API wi
 
 4. /auth/jwt/refresh/ -	получить новый JWT по истечении времени жизни ранее сгенерированного
 
-5. /api/registration/all-profiles/	- получить все профили компаний и создать новый
+5. /api/registration/all-companies-profiles/	- получить все профили компаний и создать новый
     
     На данный момент для создания профиля и отправки заявки на email компании не обязательно быть зарегестрированным пользователем. 
     Заявка отправляется на почту менеджера при создании профиля компании (реализовано вo view).
     
-6. /api/registration/profile/id/- подробный вид профиля компании по id
+6. /api/registration/company-profile/id/- подробный вид профиля компании по id
