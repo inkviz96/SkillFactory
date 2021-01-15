@@ -19,6 +19,7 @@ class RegistrationCompanyModelTest(TestCase):
         CompanyProfile.objects.create(user=user, company_name='Skillfactory',
                                       scope='Education', address='MSK',
                                       about_company='It online school', about_team='Company SF',
+                                      contact_person='Ivan Ivanov', position='manager',
                                       email='example@example.com', phone_number='+70000000000',
                                       confirmation='False')
 
@@ -67,6 +68,26 @@ class RegistrationCompanyModelTest(TestCase):
         field_label = company_prof._meta.get_field('about_team').verbose_name
         self.assertEquals(field_label, 'about team')
 
+    def test_contact_person_label(self):
+        company_prof = CompanyProfile.objects.get(id=1)
+        field_label = company_prof._meta.get_field('contact_person').verbose_name
+        self.assertEquals(field_label, 'contact_person')
+
+    def test_contact_person_max_length(self):
+        company_prof = CompanyProfile.objects.get(id=1)
+        max_length = company_prof._meta.get_field('contact_person').max_length
+        self.assertEquals(max_length, 256)
+
+    def test_position_label(self):
+        company_prof = CompanyProfile.objects.get(id=1)
+        field_label = company_prof._meta.get_field('position').verbose_name
+        self.assertEquals(field_label, 'position')
+
+    def test_position_max_length(self):
+        company_prof = CompanyProfile.objects.get(id=1)
+        max_length = company_prof._meta.get_field('position').max_length
+        self.assertEquals(max_length, 256)
+
     def test_email_label(self):
         company_prof = CompanyProfile.objects.get(id=1)
         field_label = company_prof._meta.get_field('email').verbose_name
@@ -93,6 +114,8 @@ class APITests(APITestCase):
             "address": "MSK",
             "about_company": "about",
             "about_team": "about",
+            "contact_person": "Ivan Ivanov",
+            "position": "manager",
             "email": "example@exakjle.com",
             "phone_number": "+79819913306",
             "confirmation": "false"
@@ -114,6 +137,8 @@ class APITests(APITestCase):
                     'address': "MSK",
                     'about_company': "about",
                     'about_team': "about",
+                    'contact_person': "Ivan Ivanov",
+                    'position': "manager",
                     'email': "example@exakjle.com",
                     'phone_number': "+79819913306",
                     'confirmation': False
