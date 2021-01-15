@@ -11,6 +11,8 @@ class CompanyProfile(models.Model):
     address = models.CharField(blank=False, max_length=100)
     about_company = models.TextField(blank=True)
     about_team = models.TextField(blank=True)
+    contact_person = models.CharField(blank=False, max_length=256)
+    position = models.CharField(blank=True, max_length=256)
     email = models.EmailField(blank=False, unique=True)
     phone_number = PhoneNumberField(null=False, blank=False, unique=True)
     confirmation = models.BooleanField(default=False)
