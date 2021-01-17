@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     'password_manage',
     'registration',
+    'googlesheets',
 
     # rest API implementation library for django
     'rest_framework',
@@ -139,7 +140,7 @@ EMAIL_HOST_USER = 'saint96bsemenb@gmail.com'
 EMAIL_HOST_PASSWORD = 'qwerty466303'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
 
 
 # Authentication settings

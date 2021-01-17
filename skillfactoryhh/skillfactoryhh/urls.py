@@ -25,4 +25,5 @@ urlpatterns = [
 
     # path to registration's app endpoints
     path("api/registration/", include("registration.urls")),
+    path('api/google/', include('googlesheets.urls'))
 ]
