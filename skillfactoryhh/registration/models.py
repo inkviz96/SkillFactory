@@ -1,10 +1,35 @@
 from django.db import models
-from django.contrib.auth.models import User
 from phonenumber_field.modelfields import PhoneNumberField
+from django.conf import settings
+from registration_students.models import User
+from django.contrib.auth.models import BaseUserManager, PermissionsMixin
+
+
+class CompanyManager(BaseUserManager):
+
+    def create_company(self, email, password=None):
+        if email is None:
+            raise TypeError('Users must have an email address.')
+
+        company = Company(
+            email=self.normalize_email(email),
+        )
+        company.set_password(password)
+        company.save()
+
+        return company
+
+
+class Company(User, PermissionsMixin):
+
+    USERNAME_FIELD = 'email'
+
+    objects = CompanyManager()
 
 
 class CompanyProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="profile")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True,
+                             related_name="profile")
 
     company_name = models.CharField(blank=False, max_length=30)
     scope = models.CharField(blank=False, max_length=30)
@@ -19,7 +44,6 @@ class CompanyProfile(models.Model):
 
     def __str__(self):
         return self.company_name
-
 
 
 
