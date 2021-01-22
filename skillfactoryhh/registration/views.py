@@ -1,14 +1,43 @@
-from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateDestroyAPIView,)
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
-
 from .models import CompanyProfile
 from .permissions import IsOwnerProfileOrReadOnly
-from .serializers import CompanyProfileSerializer
+from .renderers import UserJSONRenderer
+from .serializers import CompanyProfileSerializer, RegistrationCompanySerializer, LoginCompanySerializer
 from django.core.mail import EmailMultiAlternatives
+from rest_framework import status
+from rest_framework.permissions import AllowAny
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+
+class RegistrationCompanyAPIView(APIView):
+    """
+    Разрешить всем пользователям (аутентифицированным и нет) доступ к данному эндпоинту.
+    """
+    permission_classes = (AllowAny,)
+    renderer_classes = (UserJSONRenderer,)
+    serializer_class = RegistrationCompanySerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class LoginCompanyAPIView(APIView):
+    permission_classes = (AllowAny,)
+    renderer_classes = (UserJSONRenderer,)
+    serializer_class = LoginCompanySerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CompanyProfileListCreateView(ListCreateAPIView):
