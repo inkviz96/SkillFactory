@@ -40,16 +40,20 @@ INSTALLED_APPS = [
 
     # rest API implementation library for django
     'rest_framework',
-    # JWT authentication backend library
-    'rest_framework_simplejwt',
-    # third party package for user registration and authentication endpoints
-    'djoser',
+    'rest_framework.authtoken',
 
     # For company phone number field
     'phonenumber_field',
-
     'registration_students',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'registration.backends.JWTCompanyAuthentication',
+    ),
+}
+
+AUTH_USER_MODEL = 'registration_students.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,28 +144,3 @@ EMAIL_HOST_PASSWORD = 'qwerty466303'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-
-# Authentication settings
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        # 'rest_framework.permissions.IsAuthenticated',
-        'rest_framework.permissions.AllowAny',
-    ),
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
-    'TEST_REQUEST_RENDERER_CLASSES': [
-        'rest_framework.renderers.MultiPartRenderer',
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.TemplateHTMLRenderer'
-    ],
-}
-
-# Application definition
-SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
-}
-
-APPEND_SLASH = False
