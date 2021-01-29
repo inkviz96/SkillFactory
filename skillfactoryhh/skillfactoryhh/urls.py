@@ -18,5 +18,11 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('registration_students.urls')),
+    # path to djoser end points
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+
+    # path to registration's app endpoints
+    path("api/registration/", include("registration.urls")),
+    path('api/google/', include('googlesheets.urls'))
 ]
