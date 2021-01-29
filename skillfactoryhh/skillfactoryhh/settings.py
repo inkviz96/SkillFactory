@@ -37,12 +37,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'rest_framework.authtoken',
 
 
     'password_manage',
     'registration',
+    'googlesheets',
+
+    # rest API implementation library for django
+    'rest_framework',
+    # JWT authentication backend library
+    'rest_framework_simplejwt',
+    # third party package for user registration and authentication endpoints
+    'djoser',
+
+    # For company phone number field
+    'phonenumber_field',
+
     'registration_students',
 ]
 
@@ -133,9 +144,36 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# SMTP Mail service with decouple
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = 'saint96bsemenb@gmail.com'
+EMAIL_HOST_PASSWORD = 'qwerty466303'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
+
+
+
+# Authentication settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        # 'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+    ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'TEST_REQUEST_RENDERER_CLASSES': [
+        'rest_framework.renderers.MultiPartRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.TemplateHTMLRenderer'
+    ],
+}
+
+# Application definition
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
+}
+
+APPEND_SLASH = False
