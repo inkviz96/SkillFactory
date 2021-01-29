@@ -1,3 +1,14 @@
 from django.contrib import admin
+from .models import CompanyProfile, Company
 
-# Register your models here.
+
+@admin.register(CompanyProfile)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Company)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
